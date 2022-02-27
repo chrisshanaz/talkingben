@@ -50,6 +50,10 @@ client.on('message', message => {
   		{ name: 'How to chat with me', value: 'Simply say ben, Ben, or @ me to get a response', inline: true },
   		{ name: 'Special Commands', value: 'ben embed fail', inline: true },
   	)  
+    if(message.content.toLowerCase().includes("dover")){
+      message.content.send("https://tenor.com/view/bend-over-gif-21069300");    
+      return;
+    }
 
     if(message.content.toLowerCase().includes("help")){
       message.channel.send({ embeds: [exampleEmbed] });
