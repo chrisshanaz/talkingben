@@ -19,7 +19,7 @@ client.on("ready", function() {
 });
 
 var isBenOn = new Boolean(false);
-var isBenReset = new Boolean(false);
+var gifMode = new Boolean(false);
 let RNG = 0;
 
 function getRandomInt(max) {
@@ -27,36 +27,66 @@ function getRandomInt(max) {
 }
 
 isBenOn = false;
+gifMode = false;
 
 client.on('message', message => {
 
-  if(message.mentions.has(client.user) && !isBenOn){
-     message.channel.send("Ben.");
-     isBenOn = true;
-     return;
-  }
-  
-  if((message.mentions.has(client.user) || message.content.toLowerCase().includes("ben"))&& isBenOn){
-    RNG = getRandomInt(17);
-    console.log(RNG);
-
+  if(message.content.toLowerCase().includes("ben help")){
     const exampleEmbed = new MessageEmbed()
 	  .setColor('#0099ff')
 	  .setTitle('Talking Ben Help')
 	  .setURL('https://discord.gg/22HS7qZA')
 	  .setDescription('Commands')
 	  .addFields(
-	  	{ name: 'How To Activate', value: 'If I hang up or am not started, just ping me' },
+	  	{ name: 'How To Activate', value: 'If I hang up or am not started, just ping me or write "ben start"' },
   		{ name: 'How to chat with me', value: 'Simply say ben, Ben, or @ me to get a response', inline: true },
-  		{ name: 'Special Commands', value: 'ben embed fail', inline: true },
+  		{ name: 'Special Commands', value: 'ben embed fail. ben dover. ben chug. ben eat. ben gifmode', inline: true },
+      { name: 'Bot Version', value: 'v1.1, bot by shanaz#6969'},
   	)  
+
+    message.channel.send({ embeds: [exampleEmbed] });
+    return;
+  }
+
+  if(message.content.toLowerCase().includes("ben gifmode")){
+      gifMode = !gifMode;
+      if(gifMode){
+        message.channel.send("GIF Mode set to **ON**")
+      } else {
+        message.channel.send("GIF Mode set to **OFF**")
+      }
+      return;
+    }
+  
+  if((message.mentions.has(client.user) || message.content.toLowerCase().includes("ben start")) && !isBenOn){
+     if(gifMode){
+       message.channel.send("https://ibb.co/DKNbyGh");
+     } else {
+       message.channel.send("Ben.");
+     }
+     
+     isBenOn = true;
+     return;
+  }
+  
+  if((message.mentions.has(client.user) || message.content.toLowerCase().includes("ben"))&& isBenOn){
+    if(message.author.bot) return;
+    
+    RNG = getRandomInt(17);
+    console.log(RNG);
+    
     if(message.content.toLowerCase().includes("dover")){
-      message.content.send("https://tenor.com/view/bend-over-gif-21069300");    
+      message.channel.send("https://tenor.com/view/bend-over-gif-21069300");    
       return;
     }
 
-    if(message.content.toLowerCase().includes("help")){
-      message.channel.send({ embeds: [exampleEmbed] });
+    if(message.content.toLowerCase().includes("chug")){
+      message.channel.send("https://tenor.com/view/talking-ben-drinking-apple-cider-throw-rude-gif-22031991");    
+      return;
+    }
+
+    if(message.content.toLowerCase().includes("eat")){
+      message.channel.send("https://tenor.com/view/talking-ben-eating-beans-gif-22187056");    
       return;
     }
 
@@ -66,23 +96,43 @@ client.on('message', message => {
     }
 
     if(RNG === 0 || RNG === 2 || RNG === 3 || RNG === 1){
-      message.channel.send("Yes.");
+      if(!gifMode){
+        message.channel.send("Yes.");
+      } else {
+        message.channel.send("https://ibb.co/q9ZQTWS");
+      }
     }
 
     if(RNG === 5 || RNG === 6 || RNG === 7 || RNG === 4){
-      message.channel.send("No.");
+      if(!gifMode){
+        message.channel.send("No.");
+      } else {
+        message.channel.send("https://ibb.co/kyCPwxg");
+      }
     }
 
     if(RNG === 9 || RNG === 10 || RNG === 11 || RNG === 8){
-      message.channel.send("Ho Ho Ho.");
+      if(!gifMode){
+        message.channel.send("Ho Ho Ho.");
+      } else {
+        message.channel.send("https://ibb.co/HzQZ3Qb");
+      }
     }
 
     if(RNG === 13 || RNG === 14 || RNG === 15 || RNG === 12){
-      message.channel.send("Ugh.");
+      if(!gifMode){
+        message.channel.send("Ugh.");
+      } else {
+        message.channel.send("https://ibb.co/x8v8xHB");
+      }
     }
 
     if(RNG === 16 ){
-      message.channel.send(":telephone:");
+      if(gifMode){
+        message.channel.send("https://tenor.com/view/talking-ben-ben-hang-up-bye-goodbye-gif-24987183");
+      } else {
+        message.channel.send(":telephone:");
+      }
       isBenOn = false;
     }
   }
